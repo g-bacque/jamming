@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import SearchBar from './SearchBar.js'
 
 function App() {
   return (
@@ -9,6 +10,9 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+        <SearchBar />
+
+        <p> This is my first change to the React App.</p>
         <a
           className="App-link"
           href="https://reactjs.org"
