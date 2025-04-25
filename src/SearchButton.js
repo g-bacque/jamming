@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 function SearchButton(){
     return (
-    <button type="submit">Search</button>
+    <button type="submit" >Search</button>
     )
 }
 

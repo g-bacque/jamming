@@ -1,16 +1,19 @@
 import React, {useState} from "react";
 
-function SearchResults(){
-    return (
-        <div>
-            <h4>
-                Down hear is the search results:
-            </h4>
-            <ul>
+function SearchResults(props){
+    if(props.results.length === 0){
+        return <p>No hay resultados.</p>
+    }
 
-            </ul>
-        </div>
+    return (
+        <ul>
+            {props.results.map((song) => (
+                <li key={song.id}>
+                    <strong>{song.name}</strong> - {song.artist} ({song.album})
+                </li>
+            ))}
+        </ul>
     )
 }
 
-export default SearchResults
+export default SearchResults;

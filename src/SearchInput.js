@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
-function SearchInput(porps){
+function SearchInput(props){
     //lo incluiré en el parent component const [userInput, setUserInput] = useState('')
     const handleInputChange = (event) => {
-        porps.setUserInput(event.target.value)
+        props.setUserInput(event.target.value)
 
 
     }
 
     return (
         <div>
-        <input value={porps.userInput} onChange={handleInputChange}></input>
+        <input value={props.userInput} onChange={handleInputChange}></input>
         </div>
     )
 

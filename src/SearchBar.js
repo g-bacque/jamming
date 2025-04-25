@@ -1,35 +1,22 @@
 import React, { useState } from "react";
 import SearchButton from "./SearchButton";
 import SearchInput from "./SearchInput";
-import mockList from "./mockList";
 
-function SearchBar(){
+function SearchBar(props){
 
+    const [localInput, setLocalInput] = useState('');
 
-    const [userInput, setUserInput] = useState('');
-    const [userSubmit, setUserSubmit] = useState('');
-
-    const [userInputArray, setUserInputArray] = useState([]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        for(const i in mockList){
-            for(const y in mockList[i]){
-                if(mockList[i][y] === userInput){
-                    setUserInputArray([...userInputArray, userInput])
-                }
-            } }   
-        alert(userInputArray);
+        props.onSearch(localInput);
     }
 
     return (
-        <div>
-        <h4>Write:</h4>
         <form onSubmit={handleSubmit}>
-        <SearchInput userInput={userInput} setUserInput={setUserInput} />
+        <SearchInput userInput={localInput} setUserInput={setLocalInput} />
         <SearchButton />
         </form>
-        </div>
     )
 
 }

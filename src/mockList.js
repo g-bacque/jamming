@@ -35,24 +35,5 @@ const mockList = [
     },
 ]
 
-const new_list = [];
-
-new_list.push("charly")
-
-for(const i in mockList){
-    for(const y in mockList[i]){
-        new_list.push("charly")
-    }    
-}
-
-/*for (const i in mockList){
-    for (const y in i){
-        if (mockList.i.y === 'Charly Garcia'){
-            new_list.push("Charly Garcia")
-        }     
-    }
-}*/
-
-const new_string = 'test'
 
 export default mockList
