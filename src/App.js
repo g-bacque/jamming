@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import SearchBar from './SearchBar.js'
+import SearchResults from './SearchResults.js';
 
 function App() {
   return (
@@ -11,6 +12,8 @@ function App() {
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <SearchBar />
+        <SearchResults />
+
 
         <p> This is my first change to the React App.</p>
         <a
