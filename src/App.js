@@ -1,14 +1,22 @@
-import React, { useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import SearchBar from './SearchBar.js'
 import SearchResults from './SearchResults.js';
 import mockList from './mockList.js';
 import Playlist from './Playlist.js';
+import Spotify from './Spotify.js';
+//import getSpotifyToken from './Spotify.js'
 
 
+
+//REACT COMPONENT:
 function App() {
+
+
+
   //HOOKS:
+
   //User input: gets value from the searchInput component.
   const [userInput, setUserInput] = useState('');
   //Filtered results: is setted after submiting the userInput clicking on searchbutton.
@@ -17,6 +25,15 @@ function App() {
   const [playlistSongs, setPlaylistSongs] = useState([]);
   
   const [playlistName, setPlaylistName] = useState('');
+
+  const [savePlaylist, setSavePlaylist] = useState('');
+
+  /*async function spotifyToken(){
+    const spotifyToken = await getSpotifyToken();
+    return spotifyToken;
+  }*/
+
+
 
   //FUNCTIONS
 
@@ -32,10 +49,19 @@ function App() {
   };
 
   const alertTest = () => {
-    alert('it works!')
+    setSavePlaylist(playlistName);
+    alert(`PLaylistname is ${playlistName} and saved play list name is ${savePlaylist}`);
   }
 
   //handleSearch: it handles the submition of the searchBar form. When the user clicks on the searchButton, handleSearch lowercases the text and compare it to the data base (mock list for now) and filter the results.
+  
+
+  /*async function handleSearch(inputValue){
+    const spotifyResult = Spotify.search(inputValue);
+    alert(spotifyResult);
+  }*/
+
+  
   const handleSearch = (inputValue) => {
     setUserInput(inputValue);
 
@@ -48,14 +74,60 @@ function App() {
 
   }
 
-  const savePlaylist = useCallback(() => {
+
+  
+// Esta es tu función personalizada para buscar en Spotify
+/*function search(inputValue) {
+  setUserInput(inputValue);
+  const searchTerm = inputValue.toLowerCase();
+  const accessToken = Spotify.getAccessToken();
+  
+  
+  return fetch(`https://api.spotify.com/v1/search?type=track&q=${searchTerm}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  }).then(response => {
+    return response.json();
+  }).then(jsonResponse => {
+    if (!jsonResponse.tracks) {
+      return [];
+    }
+    return jsonResponse.tracks.items.map(track => ({
+      id: track.id,
+      name: track.name,
+      artist: track.artists[0].name,
+      album: track.album.name,
+      uri: track.uri
+    }));
+  });
+}*/
+
+/*// Esta es la función que usas en SearchBar como onSearch
+function handleSearch(inputValue) {
+  search(inputValue).then(results => {
+    setFilteredResults(results);
+  });
+}*/
+
+
+  const spotifySaveList = [];
+
+  /*const savePlaylist = () => {
+    const trackUris = playlistSongs.map((song)=> song.uri);
+    setPlaylistName = 
+  }*/
+
+  /*const savePlaylist = useCallback(() => {
     const trackUris = playlistSongs.map((song) => song.uri);
     mockList.savePlaylist(playlistName, trackUris).then(() => {
       setPlaylistName("New Playlist");
       setPlaylistSongs([]);
     });
-  }, [playlistName, playlistSongs]);
+  }, [playlistName, playlistSongs]);*/
   
+
+  //RETURN:
   return (
     <div className="App">
       <header className="App-header">
@@ -70,7 +142,7 @@ function App() {
 
         <SearchResults onAdd={addSongToPlaylist} results={filteredResults}/>
 
-        <Playlist savePlaylist={savePlaylist} alertTest={alertTest} songs={playlistSongs} onRemove={removeSongFromPlaylist}/>
+        <Playlist setPlaylistName={setPlaylistName} playlistName={playlistName} /*savePlaylist={savePlaylist}*/ alertTest={alertTest} songs={playlistSongs} onRemove={removeSongFromPlaylist}/>
 
         
 

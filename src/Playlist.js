@@ -5,7 +5,8 @@ function Playlist(props) {
   const [playlistLocalName, setPlaylistLocalName] = useState('');
 
   const handleChange = (event)=>{
-    setPlaylistLocalName(event.target.value)
+    props.setPlaylistName(event.target.value);
+    setPlaylistLocalName(event.target.value);
   }
 
   if (props.songs.length === 0) {
@@ -19,9 +20,9 @@ function Playlist(props) {
 
   return (
     <div >
-        <h6>Input playlist name</h6>
-      <input onChange={handleChange}></input>
-      <h4>{playlistLocalName}</h4>
+      <h6>Input playlist name</h6>
+      <input onChange={handleChange} value={props.playlistName}></input>
+      <h4>{props.playlistLocalName}</h4>
       <ul>
         {props.songs.map((song) => (
           <li key={song.id}>
@@ -33,7 +34,7 @@ function Playlist(props) {
         
         
       </ul>
-      <button onClick={props.savePlaylist}>SAVE PLAYLIST</button>
+      <button onClick={props.alertTest}>SAVE PLAYLIST</button>
     </div>
   );
 }
