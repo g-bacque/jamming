@@ -26,7 +26,7 @@ function Playlist(props) {
       <ul>
         {props.songs.map((song) => (
           <li key={song.id}>
-            <strong>{song.name}</strong> - {song.artist} ({song.album})
+            <strong>{song.name}</strong> - {song.artists[0].name} - {song.type}
             <button onClick={()=> handleRemove(song.id)}>x</button>
           </li>
         ))}

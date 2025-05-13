@@ -1,7 +1,7 @@
 const clientId = '9f4b295396164fb185a1622cb8dca3d3'; // Insert client ID here.
 const clientSecret = '801505fd79994668bdf470e0b0fb156e';
 const authString = btoa(`${clientId}:${clientSecret}`);
-
+const redirectUri = 'http://127.0.0.1:3000';
 
 async function getSpotifyToken() {
   const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -18,12 +18,36 @@ async function getSpotifyToken() {
   return spotifyToken;
 }
 
+const spotifyToken = getSpotifyToken();
 
-const redirectUri = 'http://127.0.0.1:3000'; // Have to add this to your accepted Spotify redirect URIs on the Spotify API.
+async function getUserId(token) {
+  const res = await fetch('https://api.spotify.com/v1/me', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+  return data.id;
+}
+
+const userId = getUserId(spotifyToken);
+
+
+const Spotify = 
+{ 'getSpotifyToken': spotifyToken,
+
+  'clientId': userId,
+
+}
+
+export default Spotify;
+
+ // Have to add this to your accepted Spotify redirect URIs on the Spotify API.
 //let accessToken;
 
-const Spotify = {
-  /*getAccessToken() {
+/*const Spotify = {
+  getAccessToken() {
     if (accessToken) {
       return accessToken;
     }
@@ -40,31 +64,9 @@ const Spotify = {
       const accessUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectUri}`;
       window.location = accessUrl;
     }
-  },*/
-
-  search(term) {
-    const accessToken = getSpotifyToken();
-    return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    }).then(response => {
-      return response.json();
-    }).then(jsonResponse => {
-      if (!jsonResponse.tracks) {
-        return [];
-      }
-      return jsonResponse.tracks.items.map(track => ({
-        id: track.id,
-        name: track.name,
-        artist: track.artists[0].name,
-        album: track.album.name,
-        uri: track.uri
-      }));
-    });
   },
 
-  /*savePlaylist(name, trackUris) {
+  savePlaylist(name, trackUris) {
     if (!name || !trackUris.length) {
       return;
     }
@@ -91,7 +93,7 @@ const Spotify = {
         });
       });
     });
-  }*/
-};
+  }
+};*/
 
-export default getSpotifyToken;
+

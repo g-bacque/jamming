@@ -5,17 +5,15 @@ import SearchBar from './SearchBar.js'
 import SearchResults from './SearchResults.js';
 import mockList from './mockList.js';
 import Playlist from './Playlist.js';
-//import Spotify from './Spotify.js';
-import getSpotifyToken from './Spotify.js';
+import Spotify from './Spotify.js';
+//import getSpotifyToken from './Spotify.js';
+import SpotifyTwo, { redirectToSpotifyAuth } from './SpotifyTwo.js';
+
 
 
 
 //REACT COMPONENT:
 function App() {
-
-  
-
-
 
   //HOOKS:
 
@@ -36,53 +34,9 @@ function App() {
 
   const [trackMap, setTrackMap] = useState([]);
 
-  
+  const [testList, setTestList] = useState();
 
-  /*async function spotifyToken(){
-    const spotifyToken = await getSpotifyToken();
-    return spotifyToken;
-  }*/
-
-
-
-
-
-    /*function search(userInput) {
-      async function getSpotifyToken() {
-        const response = await fetch('https://accounts.spotify.com/api/token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': `Basic ${authString}`
-          },
-          body: 'grant_type=client_credentials'
-        });
-      
-        const data = await response.json();
-        const spotifyToken = data.access_token;
-        return spotifyToken;
-      }
-      const accessToken = getSpotifyToken();
-      return fetch(`https://api.spotify.com/v1/search?type=track&q=${userInput}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      }).then(response => {
-        return response.json();
-      }).then(jsonResponse => {
-        if (!jsonResponse.tracks) {
-          return [];
-        }
-        setTrackMap(jsonResponse.tracks.items.map(track => ({
-          id: track.id,
-          name: track.name,
-          artist: track.artists[0].name,
-          album: track.album.name,
-          uri: track.uri
-        })));
-      });
-    };*/
-
+  const [token, setToken] = useState(null);
 
 
   //FUNCTIONS
@@ -92,104 +46,21 @@ function App() {
     if (!playlistSongs.some((s) => s.id === song.id)) {
       setPlaylistSongs([...playlistSongs, song]);
     }
+
   }
   //removeSongFromPLaylist uses 'setPlaylistSongs' hook to update the playlist removing songs
   const removeSongFromPlaylist = (songId) => {
     setPlaylistSongs(playlistSongs.filter((song) => song.id !== songId));
   };
 
-  async function handleSearchTwo() {
-    const spotifyToken = await getSpotifyToken();
-    const response = await fetch('https://api.spotify.com/v1/search?q=remaster%2520track%3AGiros%2520artist%3AFito%2520Paez&type=album', {
-      headers: {
-        Authorization: `Bearer ${spotifyToken}`
-      }
-    });
-    const data = await response.json();
-    const albums = data.albums.items;
-    const albumsArray = [];
-    for (let i in albums){
-      albumsArray.push(albums[i]);
-    }
-    const albumData = Object.keys(albumsArray[0])
-    alert(`${albumsArray[0].id}, ${albumsArray[0].name}, ${albumsArray[0].artists[0]}`);
-    //alert(albums[2].name);
-  }
 
-  async function alertTest() {
-    const spotifyToken = await getSpotifyToken();
-    /*const response = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': `Basic ${authString}`
-      },
-      body: 'grant_type=client_credentials'
-    });
-  
-    const data = await response.json();
-    const spotifyToken = data.access_token;*/
-    alert(spotifyToken);
-  }
-
-  /*const alertTest = () => {
-    
-    alert(spotifyToken)
-    setSavePlaylist(playlistName);
-    alert(`PLaylistname is ${playlistName} and saved play list name is ${savePlaylist}`);
-  }*/
-
-  //handleSearch: it handles the submition of the searchBar form. When the user clicks on the searchButton, handleSearch lowercases the text and compare it to the data base (mock list for now) and filter the results.
-  
-
-  /*async function handleSearch(inputValue){
-    const spotifyResult = Spotify.search(inputValue);
-    alert(spotifyResult);
-  }*/
-
-    async function handleSearchZ() {
-      
-      //setUserInput(inputValue);
-      //const searchTerm = inputValue.toLowerCase();
-      const track = 'Doxy';
-      const artist = 'Miles Davis';
-      const query = encodeURIComponent(`track:${track} artist:${artist}`);
-      const url = `https://api.spotify.com/v1/search?q=${query}&type=album`;      
-      const spotifyToken = await getSpotifyToken();
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${spotifyToken}`
-        }
-      });
-      const data = await response.json();
-      const albums = data.albums.items;
-      for (let i in albums){
-        alert(`nº${i} album`)
-      }
-      //alert(albums[0].name);
-
-  
-    }
-
-  
-  const handleSearch = (inputValue) => {
-    setUserInput(inputValue);
-
-    const searchTerm = inputValue.toLowerCase();
-
-    const results = mockList.filter((song) =>
-    Object.values(song).some((value) => String(value).toLowerCase().includes(searchTerm)));
-
-    setFilteredResults(results);
-
-  }
-
+  //HANDLE SEARCH FUNCTION
   async function handleSearchSpotify(inputValue){
     setUserInput(inputValue);
 
     const searchTerm = inputValue.toLowerCase();
 
-    const spotifyToken = await getSpotifyToken();
+    const spotifyToken = await Spotify.getSpotifyToken;
     const response = await fetch(`https://api.spotify.com/v1/search?q=remaster%2520ttrack%3A${searchTerm}&type=track`, {
       headers: {
         Authorization: `Bearer ${spotifyToken}`
@@ -199,52 +70,92 @@ function App() {
     const tracks = data.tracks.items;
     const tracksArray = [];
     for (let i in tracks){
-      tracksArray.push({'artist': tracks[i].artists[0].name, 'track':tracks[i].name});
+      tracksArray.push(tracks[i]);
     }
-    //const albumData = Object.keys(albumsArray[0])
-    alert(tracksArray[0].artist + ' - ' + tracksArray[0].track)
-    //alert(`${albumsArray[0].id}, ${albumsArray[0].name}, ${albumsArray[0].artists[0]}`);
-    //alert(albums[2].name);
+    setFilteredResults(tracksArray);
+
+  }
+
+  async function createPlaylist(token, userId, name, description, isPublic) {
+    const response = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name,
+        description: description,
+        public: isPublic,
+      }),
+    });
+  
+    const data = await response.json();
+    console.log("🎵 Playlist creada:", data);
+    return data; // contien
+    // 
+    // e el playlistId, etc.
+  }
+
+  async function getUserId(token) {
+    const res = await fetch('https://api.spotify.com/v1/me', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  
+    const data = await res.json();
+    return data.id;
   }
 
 
+    
+  const handleCreatePlaylist = async (e) => {
+    e.preventDefault(); // ← Evita que el formulario se recargue
   
-// Esta es tu función personalizada para buscar en Spotify
-/*function search(inputValue) {
-  setUserInput(inputValue);
-  const searchTerm = inputValue.toLowerCase();
-  const accessToken = Spotify.getAccessToken();
-  
-  
-  return fetch(`https://api.spotify.com/v1/search?type=track&q=${searchTerm}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
+    const token = await Spotify.getSpotifyToken;
+    
+    const userId = await getUserId(token);
+
+    alert(userId)
+    //const playlist = await createPlaylist(token, userId, playlistName, 'Descripción', false);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    const storedVerifier = localStorage.getItem('spotify_code_verifier');
+
+    if (code && storedVerifier && !token) {
+      const body = new URLSearchParams({
+        client_id: 'TU_CLIENT_ID',
+        grant_type: 'authorization_code',
+        code,
+        redirect_uri: 'http://127.0.0.1:3000',
+        code_verifier: storedVerifier,
+      });
+
+      fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: body.toString(),
+      })
+        .then(res => res.json())
+        .then(data => {
+          setToken(data.access_token);
+          localStorage.removeItem('spotify_code_verifier');
+          window.history.replaceState({}, null, '/'); // limpia la URL
+        });
     }
-  }).then(response => {
-    return response.json();
-  }).then(jsonResponse => {
-    if (!jsonResponse.tracks) {
-      return [];
-    }
-    return jsonResponse.tracks.items.map(track => ({
-      id: track.id,
-      name: track.name,
-      artist: track.artists[0].name,
-      album: track.album.name,
-      uri: track.uri
-    }));
-  });
-}*/
-
-/*// Esta es la función que usas en SearchBar como onSearch
-function handleSearch(inputValue) {
-  search(inputValue).then(results => {
-    setFilteredResults(results);
-  });
-}*/
+  }, []);
 
 
-  const spotifySaveList = [];
+
+
+
+  //const spotifySaveList = [];
 
   /*const savePlaylist = () => {
     const trackUris = playlistSongs.map((song)=> song.uri);
@@ -273,13 +184,22 @@ function handleSearch(inputValue) {
 
         <SearchBar onSearch={handleSearchSpotify}/>
 
-        <button onClick={handleSearchTwo}>example button</button>
-
         <SearchResults onAdd={addSongToPlaylist} results={filteredResults}/>
 
-        <Playlist setPlaylistName={setPlaylistName} playlistName={playlistName} /*savePlaylist={savePlaylist}*/ alertTest={alertTest} songs={playlistSongs} onRemove={removeSongFromPlaylist}/>
+        <Playlist setPlaylistName={setPlaylistName} playlistName={playlistName} /*savePlaylist={savePlaylist}*/  songs={playlistSongs} onRemove={removeSongFromPlaylist}/>
 
-        <button handleClick={alertTest}>CLICK ME</button>
+        <button onClick={handleCreatePlaylist}>TEST BUTTON</button>
+
+        <h1>Spotify Login con PKCE</h1>
+      {!token ? (
+        <button onClick={() => redirectToSpotifyAuth()}>
+          Iniciar sesión con Spotify
+        </button>
+      ) : (
+        <p>✅ Token obtenido correctamente</p>
+      )}
+        
+
 
         
 
@@ -294,6 +214,7 @@ function handleSearch(inputValue) {
         </a>
       </header>
     </div>
+    
   );
 }
 
