@@ -26,7 +26,7 @@ function Playlist(props) {
       <ul>
         {props.songs.map((song) => (
           <li key={song.id}>
-            <strong>{song.name}</strong> - {song.artists[0].name} - {song.type}
+            <strong>{song.name}</strong> - {song.artists[0].name}
             <button onClick={()=> handleRemove(song.id)}>x</button>
           </li>
         ))}
@@ -34,7 +34,7 @@ function Playlist(props) {
         
         
       </ul>
-      <button onClick={props.alertTest}>SAVE PLAYLIST</button>
+      <button onClick={props.savePlaylist}>SAVE PLAYLIST</button>
     </div>
   );
 }

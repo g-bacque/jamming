@@ -13,7 +13,7 @@ function SearchResults(props){
         <ul>
             {props.results.map((song) => (
                 <li key={song.id}>
-                    <strong>{song.name}</strong> - {song.artists[0].name} - {song.album.name}
+                    <strong>{song.name}</strong> - {song.artists[0].name}
                     <button onClick={()=> handleClick(song)}>+</button>
                 </li>
             ))}

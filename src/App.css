@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.appcontainer{
+  display: flex;
+  flex-direction: row;
+  border-color: aqua solid 2px;
+}
+
+.leftside{
+  width: 50%;
+  border-color: solid 1px #61dafb;
+}
+
+.rightside{
+  width: 50%;
+}
