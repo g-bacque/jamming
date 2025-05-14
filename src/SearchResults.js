@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 
 function SearchResults(props){
     if(props.results.length === 0){

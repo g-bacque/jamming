@@ -1,4 +1,4 @@
-import React, { useState, onChange } from "react";
+import React, { useState } from "react";
 
 function Playlist(props) {
 
@@ -22,7 +22,7 @@ function Playlist(props) {
     <div >
       <h6>Input playlist name</h6>
       <input onChange={handleChange} value={props.playlistName}></input>
-      <h4>{props.playlistLocalName}</h4>
+
       <ul>
         {props.songs.map((song) => (
           <li key={song.id}>
