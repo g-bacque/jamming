@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
 function Playlist(props) {
 
-  const [playlistLocalName, setPlaylistLocalName] = useState('');
-
   const handleChange = (event)=>{
     props.setPlaylistName(event.target.value);
-    setPlaylistLocalName(event.target.value);
   }
 
   if (props.songs.length === 0) {

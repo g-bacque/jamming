@@ -2,7 +2,7 @@
 
 //This input is a component to be exported to the SearchBar.
 
-import React, { useState } from "react";
+import React from "react";
 
 function SearchInput(props){
     

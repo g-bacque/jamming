@@ -15,7 +15,7 @@ function App() {
   //HOOKS:
 
   //User input: gets value from the searchInput component.
-  const [userInput, setUserInput] = useState('');
+  const [userInput, setUserInput] = useState();
   //Filtered results: is setted after submiting the userInput clicking on searchbutton.
   const [filteredResults, setFilteredResults] = useState([]);
   //PlaylistSongs: it updates every time the user clicks on the 'add' button from the filtered results, or the remove button from the playlist.
@@ -38,7 +38,7 @@ function App() {
   async function handleSearchSpotify(inputValue){
     setUserInput(inputValue);
 
-    const searchTerm = inputValue.toLowerCase();
+    const searchTerm = userInput.toLowerCase();
 
     const spotifyToken = token;
     const response = await fetch(`https://api.spotify.com/v1/search?q=remaster%2520ttrack%3A${searchTerm}&type=track`, {
