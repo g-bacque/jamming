@@ -1,7 +1,7 @@
 import { generateRandomString, sha256, base64encode } from './Helpers';
 
 const clientId = '9f4b295396164fb185a1622cb8dca3d3';
-const redirectUri = 'http://127.0.0.1:3000';
+const redirectUri = 'https://soft-marzipan-466b30.netlify.app';
 const scope = 'playlist-modify-public';
 
 export const redirectToSpotifyAuth = async () => {
