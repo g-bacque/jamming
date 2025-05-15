@@ -160,7 +160,7 @@ function App() {
       body.append('client_id', '9f4b295396164fb185a1622cb8dca3d3');
       body.append('grant_type', 'authorization_code');
       body.append('code', code);
-      body.append('redirect_uri', 'http://127.0.0.1:3000');
+      body.append('redirect_uri', 'https://soft-marzipan-466b30.netlify.app');
       body.append('code_verifier', verifier);
 
       fetch('https://accounts.spotify.com/api/token', {
